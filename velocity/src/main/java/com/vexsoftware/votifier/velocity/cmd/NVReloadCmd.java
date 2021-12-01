@@ -1,11 +1,12 @@
 package com.vexsoftware.votifier.velocity.cmd;
 
+import com.velocitypowered.api.command.RawCommand;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.vexsoftware.votifier.velocity.VotifierPlugin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-public class NVReloadCmd implements SimpleCommand {
+public class NVReloadCmd implements RawCommand {
 
     private final VotifierPlugin plugin;
 
@@ -14,7 +15,7 @@ public class NVReloadCmd implements SimpleCommand {
     }
 
     @Override
-    public void execute(SimpleCommand.Invocation invocation) {
+    public void execute(Invocation invocation) {
         invocation.source().sendMessage(Component.text("Reloading NuVotifier...", NamedTextColor.GRAY));
         if (plugin.reload()) {
             invocation.source().sendMessage(Component.text("NuVotifier has been reloaded!", NamedTextColor.DARK_GREEN));
@@ -23,8 +24,7 @@ public class NVReloadCmd implements SimpleCommand {
         }
     }
 
-    @Override
-    public boolean hasPermission(SimpleCommand.Invocation invocation) {
+    public boolean hasPermission(Invocation invocation) {
         return invocation.source().hasPermission("nuvotifier.reload");
     }
 }

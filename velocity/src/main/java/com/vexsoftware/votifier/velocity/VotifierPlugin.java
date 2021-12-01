@@ -2,6 +2,7 @@ package com.vexsoftware.votifier.velocity;
 
 import com.google.inject.Inject;
 import com.moandjiezana.toml.Toml;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyReloadEvent;
@@ -254,8 +255,11 @@ public class VotifierPlugin implements VoteHandler, ProxyVotifierPlugin {
         this.scheduler = new VelocityScheduler(server, this);
         this.loggingAdapter = new SLF4JLogger(logger);
 
-        this.getServer().getCommandManager().register("pnvreload", new NVReloadCmd(this));
-        this.getServer().getCommandManager().register("ptestvote", new TestVoteCmd(this));
+        CommandMeta reloadMeta = this.getServer().getCommandManager().metaBuilder("pnbreload").aliases("nvreload").build();
+        CommandMeta testVoteMeta = this.getServer().getCommandManager().metaBuilder("ptestvote").aliases("testvote").build();
+
+        this.getServer().getCommandManager().register(reloadMeta, new NVReloadCmd(this));
+        this.getServer().getCommandManager().register(testVoteMeta, new TestVoteCmd(this));
 
         if (!loadAndBind())
             gracefulExit();
